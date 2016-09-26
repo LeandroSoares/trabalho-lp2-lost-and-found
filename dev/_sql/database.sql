@@ -19,11 +19,12 @@ insert into permission
 
 select * from permission;
 drop table if exists user;
+
 -- user
 create table user(
     user_cd int(4) auto_increment,
     user_nm varchar(12) unique not null,
-    user_ps varchar(12) unique not null,
+    user_ps varchar(100) unique not null,
     user_perm_cd int(4) not null,
     constraint pk_user primary key(user_cd),
     constraint fk_perm foreign key(user_perm_cd) references permission(perm_cd)

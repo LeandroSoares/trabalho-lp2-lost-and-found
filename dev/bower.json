@@ -1,0 +1,21 @@
+{
+  "name": "dev",
+  "homepage": "https://github.com/LeandroSoares/trabalho-lp2-lost-and-found",
+  "authors": [
+    "Leandro Soares <leandrogamedesigner@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
