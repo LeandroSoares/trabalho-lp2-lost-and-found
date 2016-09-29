@@ -25,10 +25,9 @@
               <a class="navbar-brand" href="#"> Lost & Found </a>
             </div>
             <ul class='nav navbar-nav navbar-right'>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Objetos perdidos</a></li>
-                <li><a href="#">Registrar perdido</a></li>
-                <li><a href="#">Registrar achado</a></li>
+                <li><a href="<?=base_url()?>">Home</a></li>
+                <li><a href="objectlist">Objetos perdidos</a></li>
+                <li><a href="objectregister">Registrar objeto</a></li>
                 <?php if(!$login):?>
                 <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
                 <?php else:?>
@@ -51,9 +50,9 @@
                 </div>
                 <div class="modal-body">
                     <?php if($loginerror):?>
-                        <div class="alert alert-danger" role="alert">
+                        <!-- <div class="alert alert-danger" role="alert"> -->
                             <?php echo validation_errors(); ?>
-                        </div>
+                        <!-- </div> -->
                     <?php endif;?>
                 <form action="<?php echo base_url('login')?>" method="post">
 

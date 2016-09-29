@@ -37,11 +37,13 @@ class UserModel extends CI_Model{
         $signin_form_model['firstname'] = array( 'type'  => 'text', 'name'  => 'firstname' );
         return $signin_form_model;
     }
+
     public function checkIfUserExists($username){
-        return checkIfExists('user_nm', $username);
+        return $this->checkIfExists('user_nm', $username);
     }
+
     public function checkIfEmailExists($email){
-        return checkIfExists('user_mail', $email);
+        return $this->checkIfExists('user_email', $email);
     }
     function checkIfExists($field, $value){
         $sql = "select * from user where $field='$value'";

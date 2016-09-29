@@ -6,12 +6,13 @@
         <br/>
         <div class="row">
             <div class="col-md-6">
-                <a href='#' class='col-md-offset-4 btn btn-danger btn-lg'> Perdeu algo ?</a>
+                <a href='objectregister' class='col-md-offset-4 btn btn-danger btn-lg'> Perdeu algo ?</a>
             </div>
+            <?php if(!$login):?>
             <div class="col-md-6">
-                <a href='#' class='col-md-offset-4 btn btn-success btn-lg'> Achou algo ?</a>
+                <a href='signin' class='col-md-offset-4 btn btn-success btn-lg'> Criar conta</a>
             </div>
-
+            <?php endif;?>
         </div>
     </div>
 </div>

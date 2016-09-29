@@ -29,7 +29,7 @@ class Signin extends LFController {
                 $email= $this->input->post('email');
                 $firstname= $this->input->post('firstname');
                 $success = $this->user->signin($username, $password ,$email ,$firstname);
-                redirect(base_url(), 'refresh');
+                redirect(base_url('login'), 'refresh');
             }
         }
         parent::index();

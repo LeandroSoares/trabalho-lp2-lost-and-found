@@ -12,7 +12,7 @@ class Login extends LFController {
         if(!$this->validateForm()) {
             $this->dataAdd('loginerror', true);
         }
-        else {
+        else if(!empty($this->input->post())){
             redirect(base_url(), 'refresh');
         }
         parent::index();

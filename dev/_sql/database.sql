@@ -33,42 +33,30 @@ create table user(
 );
 
 insert into user
-    values (null,'admin', MD5('qwe123'), 0);
+    values (null,'admin', MD5('qwe123'), 0,'leandrogamedesigner@gmail.com','Leandro Soares');
 select * from user;
 
--- profile
--- create table user_profile(
--- 	uspr_user_cd int(4) not null,
---     uspr_email varchar(100) unique not null,
---     uspr_fnm varchar(45),
---     uspr_lnm varchar(45),
---     uspr_phone varchar(45),
---     uspr_starttime timestamp default current_timestamp,
---     constraint fk_uspr foreign key(uspr_user_cd) references user (user_cd)
--- );
-
--- insert into user_profile (uspr_user_cd,uspr_email,uspr_fnm,uspr_lnm,uspr_phone)
---              values (1, 'leandrogamdesigner@gmail.com', 'Leandro','Silva Soares', '11957746243');
-
-select *
-	from user, user_profile, permission
-    where user.user_cd=user_profile.uspr_user_cd
-    and user.user_perm_cd=permission.perm_cd;
-
-create table objeto_status(
+drop table if exists object_status;
+create table object_status(
 	obst_cd int(1)NOT NULL,
     obst_ds varchar(100)NOT NULL,
     constraint pk_obst primary key(obst_cd)
 );
-insert into objeto_status values(0,'perdido'),(1,'encontrado');
+insert into object_status values(1,'perdido');
+insert into object_status values(2,'achado');
+insert into object_status values(3,'encontrado');
+insert into object_status values(4,'entregue');
 
-create table objeto(
-	obje_cd int(4) NOT NULL,
-    obje_nm varchar(255) NOT NULL,
-    obje_ds varchar(255)NOT NULL,
-	obje_obst_cd int(1)NOT NULL,
-    obje_img longblob,
-    constraint pk_obje primary key(obst_cd),
-    constraint fk_status foreign key(obje_obst_cd) references objeto_status(obst_cd)
+drop table if exists object;
+create table object(
+	 obje_cd int(4) auto_increment
+    ,obje_nm varchar(45)
+    ,obje_ds varchar(255)
+    ,obje_img longblob
+    ,obje_obst_cd int(1)
+    ,obje_email int(4)
+    ,constraint pk_obje_cd primary key(obje_cd)
+    ,constraint fk_obje_obst_cd foreign key(obje_obst_cd) references object_status(obst_cd)
     
 );
+select * from object;
