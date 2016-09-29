@@ -12,44 +12,58 @@ class Signin extends LFController {
         if(empty($this->input->post())){
             $this->dataAdd('form_model', $this->user->signinFormModel());
         }
-        else if(!$this->validateForm()) {
-            $this->dataAdd('signinerror', true);
-        }
         else {
-            redirect(base_url(), 'refresh');
+            $errorCode = $this->validateForm();
+            if($errorCode>0){
+                $this->dataAdd('signinerror', true);
+                if($errorCode==2){
+                    $this->dataAdd('customerror', 'Usuário já existe');
+                }else if($errorCode==3){
+                    $this->dataAdd('customerror', 'Email já existe');
+                }
+                $this->dataAdd('form_model', $this->user->signinFormModel());
+            }
+            else {
+                $username= $this->input->post('username');
+                $password= $this->input->post('password');
+                $email= $this->input->post('email');
+                $firstname= $this->input->post('firstname');
+                $success = $this->user->signin($username, $password ,$email ,$firstname);
+                redirect(base_url(), 'refresh');
+            }
         }
         parent::index();
         $this->load->view('signin');
         $this->loadFooter();
     }
 
+
+    /**
+     * validateForm - Valida o formulário de signin usando o form_validation,
+     * e verifica se já existe algum valor igual já registrado no banco de dados
+     *
+     * @return {int} errorCode:[validado ok, erro de formulario, usuário duplicado,email duplicado]
+     */
     public function validateForm() {
-        return $this->form_validation->run();
+        if(!$this->form_validation->run()){
+            return 1;
+        }
+
+        $username= $this->input->post('username');
+        if($this->user->checkIfUserExists($username)){
+            return 2;
+        }
+
+        $email= $this->input->post('email');
+        if($this->user->checkIfEmailExists($email)){
+            return 3;
+        }
+
+        return 0;
     }
 
     public function setValidationRules() {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
-    }
-
-    function check_database($password) {
-       $username = $this->input->post('username');
-       $result = $this->user->login($username, $password);
-       if($result) {
-           $sess_array = array();
-           foreach($result as $row) {
-               $sess_array = array(
-                   'id' => $row->user_cd,
-                   'username' => $row->user_nm,
-                   'permission' => $row->user_perm_cd,
-               );
-               $this->session->set_userdata('logged_in', $sess_array);
-           }
-           return true;
-       }
-       else {
-           $this->form_validation->set_message('check_database', 'Invalid username or password');
-           return false;
-       }
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
     }
 }

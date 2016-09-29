@@ -3,7 +3,6 @@
 class UserModel extends CI_Model{
     function UserModel() {
         parent::__construct();
-        // $this->load->model('dao/LoginDAO', 'dao');
     }
 
     public function login($username, $password) {
@@ -23,36 +22,43 @@ class UserModel extends CI_Model{
         }
     }
 
+    public function loginFormModel() {
+        $login_form_model = array();
+        $login_form_model['username'] = array( 'type'  => 'text', 'name'  => 'username', 'placeholder' => 'username' );
+        $login_form_model['password'] = array( 'type'  => 'password', 'name'  => 'password' );
+        return $login_form_model;
+    }
+
     public function signinFormModel() {
         $signin_form_model = array();
         $signin_form_model['username'] = array( 'type'  => 'text', 'name'  => 'username', 'placeholder' => 'username' );
         $signin_form_model['password'] = array( 'type'  => 'password', 'name'  => 'password' );
         $signin_form_model['email'] = array( 'type'  => 'email', 'name'  => 'email' );
         $signin_form_model['firstname'] = array( 'type'  => 'text', 'name'  => 'firstname' );
-        $signin_form_model['lastname'] = array( 'type'  => 'text', 'name'  => 'lastname' );
-        $signin_form_model['phone'] = array( 'type'  => 'text', 'name'  => 'phone' );
         return $signin_form_model;
     }
-
-    public function signin($username, $password, $email, $firstname, $lastname='', $phone='') {
-        $user=array();
-        $user['user_nm'] = $this->db->escape($username);
-        $user['user_ps'] = MD5($this->db->escape($password));
-        $this->db->insert('user', $user);
-
-        $userdata = $this->login($username, $password);
-        if($userdata==false) {
+    public function checkIfUserExists($username){
+        return checkIfExists('user_nm', $username);
+    }
+    public function checkIfEmailExists($email){
+        return checkIfExists('user_mail', $email);
+    }
+    function checkIfExists($field, $value){
+        $sql = "select * from user where $field='$value'";
+        $query = $this->db->query($sql);
+        if($query -> num_rows() == 1) {
+            return true;
+        }
+        else {
             return false;
         }
-
-        $profile=array();
-
-        $profile['uspr_user_cd'] = $this->db->escape($userdata['user_cd']);
-        $profile['uspr_email'] = $this->db->escape($email);
-        $profile['uspr_fnm'] = $this->db->escape($firstname);
-        $profile['uspr_lnm'] = $this->db->escape($lastname);
-        $profile['uspr_phone'] = $this->db->escape($phone);
-
-        return $this->db->insert('user_profile', $profile);
+    }
+    public function signin($username, $password, $email, $firstname) {
+        $user=array();
+        $user['user_nm'] = $username;
+        $user['user_ps'] = MD5($password);
+        $user['user_email'] = $password;
+        $user['user_fnm'] = $firstname;
+        return $this->db->insert('user', $user);
     }
 }

@@ -56,6 +56,7 @@
                         </div>
                     <?php endif;?>
                 <form action="<?php echo base_url('login')?>" method="post">
+
                     <div class="form-group">
                         <label for="user">Username</label>
                         <input type="text" class="form-control" name="username" placeholder="username">
@@ -64,6 +65,7 @@
                         <label for="pass">Password</label>
                         <input type="password" class="form-control" name="password" placeholder="username">
                     </div>
+
                     <div class="container-fluid">
                         <div class="row form-group">
                             <a href='<?php echo base_url('signin')?>'>Sign in ?</a>
