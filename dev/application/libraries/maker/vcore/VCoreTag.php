@@ -1,15 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once 'IVCore.php';
 /**
+ * @author Leandro Soares  <leandrogamedesigner@gmail.com>
+ *
  * VCoreTag
  * Tem a responsabilidade de gerenciar a marcacao de html
- *  - Tipo de marcacao
+ * Compreende:
+ *  - Tipo de marcação html
  *  - Atributos
- *  - id
- *  - classe
+ *  - Id
+ *  - Classe
  */
-class VCoreTag {
+class VCoreTag  implements IVCore{
     protected $CI;
     private $tag;
     private $classList;

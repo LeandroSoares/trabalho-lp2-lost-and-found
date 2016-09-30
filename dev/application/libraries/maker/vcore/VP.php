@@ -3,7 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'VCoreTagContainer.php';
 
 /**
- * Class VP: cria uma tag html do tipo paragrafo
+ * @author Leandro Soares  <leandrogamedesigner@gmail.com>
+ *
+ * VP - Classe para renderizar a marcação html "p"
  */
 class VP extends VCoreTagContainer{
 

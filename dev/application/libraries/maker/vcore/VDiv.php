@@ -3,7 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'VCoreTagContainer.php';
 
 /**
- * Classe para renderizar divs
+ * @author Leandro Soares  <leandrogamedesigner@gmail.com>
+ *
+ * VDiv - Classe para renderizar a marcação html "div"
  */
 class VDiv extends VCoreTagContainer{
 

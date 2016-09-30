@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'VPanel.php';
 require_once 'vcore/VA.php';
 
+/**
+ * @author Leandro Soares  <leandrogamedesigner@gmail.com>
+ *
+ * VObjectPanel
+ */
 class VObjectPanel extends VPanel{
 
     private $data;
