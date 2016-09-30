@@ -6,7 +6,7 @@ class UserModel extends CI_Model{
     }
 
     public function login($username, $password) {
-        $this -> db -> select('user_cd, user_nm, user_ps, user_perm_cd');
+        $this -> db -> select('user_cd, user_nm, user_ps, user_perm_cd, user_email');
         $this -> db -> from('user');
         $this -> db -> where('user_nm', $username);
         $this -> db -> where('user_ps', MD5($password));

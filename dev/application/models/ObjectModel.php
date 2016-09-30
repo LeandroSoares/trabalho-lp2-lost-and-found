@@ -3,21 +3,61 @@
 class ObjectModel extends CI_Model{
     function ObjectModel() {
         parent::__construct();
+        $this->load->library('datamodel/ObjectDataModel');
     }
 
     public function findByCode($code) {
         $sql = "select * from object where obje_cd=$code";
         $query = $this->db->query($sql);
+        $result=array();
+        $statusList = $this->getStatusList();
+        foreach ($query->result_array() as $value) {
+            $obj = new ObjectDataModel($value);
+            $obj->setStatus($statusList[$obj->getStatuscode()]);
+            array_push($result, $obj);
+        }
+        return $result[0];
+    }
+
+
+    /**
+     * listObjects - retorna um array de objetos tipo ObjectDataModel
+     *
+     * @return {array} Array<ObjectDataModel>
+     */
+    public function listObjects() {
+        $sql = "select * from object";
+        $query = $this->db->query($sql);
+
+        $result=array();
+        $statusList = $this->getStatusList();
+        foreach ($query->result_array() as $value) {
+            $obj = new ObjectDataModel($value);
+            $obj->setStatus($statusList[$obj->getStatuscode()]);
+            array_push($result, $obj);
+        }
+
+        return $result;
+    }
+    protected function getStatusList() {
+        $sql = "select * from object_status";
+        $query = $this->db->query($sql);
+        $result=array();
+        foreach ($query->result_array() as $status) {
+            $result[$status['obst_cd']]= $status['obst_ds'];
+        }
+        return $result;
     }
     public function registerObject($data) {
 
-        $querydata=array();
-        $querydata['obje_nm'] =$data['name'];
-        $querydata['obje_ds'] =$data['description'];
-        $querydata['obje_img'] =$data['image'];
-        $querydata['obje_obst_cd'] =$data['statuscode'];
-        $querydata['obje_email'] =$data['email'];
-        return $this->db->insert('object', $querydata);
+        $objectModel = new ObjectDataModel();
+        $objectModel->setName($data['name']);
+        $objectModel->setDescription($data['description']);
+        $objectModel->setImage($data['image']);
+        $objectModel->setStatuscode($data['statuscode']);
+        $objectModel->setEmail($data['email']);
+
+        return $this->db->insert('object', $objectModel->getDataArray());
     }
 
     /**

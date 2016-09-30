@@ -1,1 +1,29 @@
 body { padding-top: 70px; }
+.panel-width{
+    width: 50%;
+}
+.flex-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.list.flex-box .imgCont{
+    width: 300px;
+    height: 230px;
+}
+.list.flex-box img{
+    max-width: 300px;
+    max-height: 230px;
+}
+.flex-box.justify-center { justify-content: center; }
+.flex-box.align-center { align-items: center; }
+
+.flex-box.justify-right { justify-content: flex-end; }
+.flex-box.justify-space-around {
+    justify-content: space-around;
+}
+
+.list.flex-box >*,.panel-body.flex-box>*{
+    width: 48%;
+}

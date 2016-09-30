@@ -56,7 +56,8 @@ $route['signin'] = 'signin';
 $route['logout'] = 'home/logout';
 $route['objectregister'] = 'object/register';
 $route['objectlist'] = 'object/listobjects';
-$route['object/(:any)'] = 'object/object/$1';
+// $route['object/(:any)'] = 'object/object/$1';
+$route['found/(:num)/(:num)'] = 'object/found/$1/$2';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

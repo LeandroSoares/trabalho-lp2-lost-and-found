@@ -16,6 +16,7 @@
 
         <script src="<?php echo base_url('js/jquery.min.js')?>" charset="utf-8"></script>
         <script src="<?php echo base_url('js/bootstrap.min.js')?>" charset="utf-8"></script>
+        <script src="<?php echo base_url('js/main.js')?>" charset="utf-8"></script>
     </head>
 
     <body>
@@ -26,13 +27,13 @@
             </div>
             <ul class='nav navbar-nav navbar-right'>
                 <li><a href="<?=base_url()?>">Home</a></li>
-                <li><a href="objectlist">Objetos perdidos</a></li>
-                <li><a href="objectregister">Registrar objeto</a></li>
+                <li><a href="<?=base_url('objectlist')?>">Objetos perdidos</a></li>
+                <li><a href="<?=base_url('objectregister')?>">Registrar objeto</a></li>
                 <?php if(!$login):?>
                 <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
                 <?php else:?>
                 <li class='alert-info'><a href="#"><?php echo $username; ?></a></li>
-                <li><a href="logout">Logout</a></li>
+                <li><a href="<?=base_url('logout')?>">Logout</a></li>
                 <?php endif;?>
             </ul>
           </div>

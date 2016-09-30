@@ -44,7 +44,10 @@ class LFController extends CI_Controller {
     protected function clearData() {
         $this->data=array();
     }
-
+    private $locked;
+    protected function lock() {
+        $this->locked=true;
+    }
     /**
      * index - customizacao da index para já checar se o usuário está logado
      *         assim redirancionando caso entre em telas que só podem ser
@@ -54,15 +57,19 @@ class LFController extends CI_Controller {
      * @return {void}
      */
     public function index() {
+        $logged=false;
         if($this->session->userdata('logged_in')){
             $session_data = $this->session->userdata('logged_in');
             $this->dataAdd('username', $session_data['username']);
-            $this->dataAdd('login', true);
-        }
-        else {
-            $this->dataAdd('login', false);
+            $logged=true;
         }
 
+        $this->dataAdd('login', $logged);
+        if(isset($this->locked)){
+            if($this->locked && $logged==false) {
+                redirect(base_url('login'), 'refresh');
+            }
+        }
         $this->load->view('common/header', $this->data);
     }
 
