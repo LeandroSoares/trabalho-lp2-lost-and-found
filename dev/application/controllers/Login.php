@@ -6,18 +6,20 @@ class Login extends LFController {
         parent::__construct();
         $this->load->model('UserModel', 'user');
         $this->load->library('form_validation');
+        $this->load->library(array('maker/VPanel','maker/vcore/VDiv'));
     }
 
     function index() {
         $this->setValidationRules();
         if(!$this->validateForm()) {
-            $this->dataAdd('loginerror', true);
+            if(!empty($this->input->post()))
+                $this->dataAdd('loginerror', true);
         }
         else if(!empty($this->input->post())){
             redirect(base_url(), 'refresh');
         }
         parent::index();
-        $this->load->view('home');
+        $this->load->view('login');
         $this->loadFooter();
     }
 

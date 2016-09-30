@@ -1,25 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require_once 'IVCore.php';
 require_once 'VCoreTag.php';
 
-class VCoreTagContainer extends VCoreTag{
+/**
+ * VCoreTagContainer
+ * Tem a responsabilidade de gerenciar o conteudo das tags html
+ */
+class VCoreTagContainer extends VCoreTag implements IVCore {
 
     protected $content;
-    private $tag;
+
     public function __construct($tag, $content='') {
-        $this->content = $content;
-        $this->tag = $tag;
+        $this->content = array($content);
         parent::__construct($tag);
     }
 
     /**
      * setContent - atribui conteudo sobreescrevendo
      *
-     * @param  {string} $content
+     * @param  {IVCore} $content
      * @return {BaseTag}
      */
-    protected function setContent($content) {
-        $this->content=$content;
+    public function setContent($content) {
+        $this->content=array($content);
+        return $this;
+    }
+
+    public function clearContent() {
+        $this->content=array();
         return $this;
     }
 
@@ -30,7 +39,7 @@ class VCoreTagContainer extends VCoreTag{
      * @return {BaseTag}
      */
     public function appendContent($content){
-        $this->content .= $content;
+        array_push($this->content, $content);
         return $this;
     }
 
@@ -41,7 +50,7 @@ class VCoreTagContainer extends VCoreTag{
      * @return {BaseTag}
      */
     public function prependContent($content){
-        $this->content = $content . $this->content;
+        array_unshift($this->content, $content);
         return $this;
     }
 
@@ -52,7 +61,8 @@ class VCoreTagContainer extends VCoreTag{
      */
     public function getHTML() {
         $html = parent::getHTML();
-        $html.="{$this->content}</{$this->tag}>";
+        $html.= implode("", $this->content);
+        $html.= $this->getEndTagHTML();
         return $html;
     }
 

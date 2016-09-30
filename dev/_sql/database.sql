@@ -60,3 +60,7 @@ create table object(
     
 );
 select * from object;
+
+Select * from object where upper(Concat(obje_cd, "", obje_nm, "", obje_ds)) like upper("%preto%");
+
+Select Concat(obje_nm, "", obje_ds) from object;

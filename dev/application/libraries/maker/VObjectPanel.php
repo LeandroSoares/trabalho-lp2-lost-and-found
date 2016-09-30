@@ -44,7 +44,7 @@ class VObjectPanel extends VPanel{
         $right->addClass('justify-center');
         //criando imagem
         $image = new VImg($data->getImage());
-        $image->setBase64();
+        $image->setBase64(true);
         //criando descricao
         $description= new VP($data->getDescription());
         //criando botao em relacao ao status

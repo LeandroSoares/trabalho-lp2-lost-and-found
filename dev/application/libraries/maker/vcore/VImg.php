@@ -2,24 +2,39 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'VCoreTag.php';
 
+/**
+ * VImg
+ * Classe para renderizar img
+ * - src
+ * - base64
+ */
 class VImg extends VCoreTag{
     private $isBase64;
     private $src;
-    private $attributeList;
+
     public function __construct($src="", $isBase64=false) {
-        $this->isBase64=false;
+        $this->isBase64=$isBase64;
         $this->src=$src;
-        $this->setBase64();
-        $this->attributeList=array();
         parent::__construct('img', "");
     }
-    public function setBase64() {
-        if($this->isBase64)return;
-        $this->isBase64=true;
-        $this->src = 'data:image/jpeg;base64,'.base64_encode($this->src);
+
+    /**
+     * setBase64 - atribui caracteristica de imagem isBase64
+     *
+     * @return {void}
+     */
+    public function setBase64($value=true) {
+        $this->isBase64 = $value;
+    }
+    private function getSrc(){
+        $src = $this->src;
+        if($this->isBase64){
+            $src = 'data:image/jpeg;base64,'.base64_encode($this->src);
+        }
+        return $src;
     }
     public function getHTML() {
-        $this->addAttr("src", $this->src);
+        $this->attr("src", $this->getSrc());
         return parent::getHTML();
     }
 }

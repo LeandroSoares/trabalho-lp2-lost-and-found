@@ -1,4 +1,46 @@
-<div class="container">
+<?php
+
+    $container = new VDiv();
+    $container->addClass('container');
+        $panel = new VPanel();
+        $panel->prependContent(form_open_multipart($action));
+            $panel->header->appendContent('<h3 class="panel-title">Registrar objeto</h3>');
+            $message="";
+            if(isset($error)) {
+                $message="<div class=\"alert alert-warning\" role=\"alert\">".validation_errors()."</div>";
+            }
+            if(isset($success)) {
+                $message= "<div class=\"alert alert-success\" role=\"alert\">$success</div>";
+            }
+
+            $panel->body->appendContent($message);
+
+            $divRenderfactory = new VDiv();
+            $divRenderfactory->addClass('form-group');
+            // $labelfactory->addClass('form-group');
+            foreach($form_model as $key => $value) {
+                $divRenderfactory->clearContent();
+                $divRenderfactory->setContent("<label>$key</label>");
+                $value['class']='form-control';
+                if($value['type']!='select'){
+                    $divRenderfactory->appendContent( form_input($value,set_value($value['name'])) );
+                }
+                else{
+                    $divRenderfactory->appendContent(form_dropdown($value['name'],$value['options'], set_value($value['name'])));
+                }
+                $panel->body->appendContent($divRenderfactory->getHTML());
+            }
+            //limpando a factory
+            $divRenderfactory->setContent("");
+
+            $panel->footer->appendContent('<button type="submit" class="btn btn-success pull-right ">Confirmar</button>');
+            $panel->footer->appendContent('<div class="clearfix"></div>');
+        $panel->appendContent(form_close());
+    $container->appendContent($panel->getHTML());
+    $container->render();
+
+?>
+<!-- <div class="container">
 <div class="panel panel-default">
     <div class="">
         <div class="panel-heading">
@@ -43,4 +85,4 @@
         </div>
     </div>
 </div>
-</div>
+</div> -->

@@ -19,14 +19,20 @@ class ObjectModel extends CI_Model{
         return $result[0];
     }
 
-
     /**
      * listObjects - retorna um array de objetos tipo ObjectDataModel
      *
      * @return {array} Array<ObjectDataModel>
      */
-    public function listObjects() {
+    public function listObjects($seachQuery="") {
         $sql = "select * from object";
+
+        if($seachQuery){
+
+            $sql = 'Select * from object where Concat(obje_nm, "", obje_ds) like "%'.$seachQuery.'%"';
+            if(intval($seachQuery)>0)
+                $sql = 'Select * from object where obje_cd='.intval($seachQuery);
+        }
         $query = $this->db->query($sql);
 
         $result=array();

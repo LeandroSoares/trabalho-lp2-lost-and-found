@@ -9,6 +9,6 @@ class VA extends VCoreTagContainer{
     function __construct($content="", $href="") {
         parent::__construct('a', $content);
         if($href!="")
-            $this->addAttr('href', $href);
+            $this->attr('href', $href);
     }
 }

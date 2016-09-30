@@ -1,5 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * VCoreTag
+ * Tem a responsabilidade de gerenciar a marcacao de html
+ *  - Tipo de marcacao
+ *  - Atributos
+ *  - id
+ *  - classe
+ */
 class VCoreTag {
     protected $CI;
     private $tag;
@@ -45,7 +54,7 @@ class VCoreTag {
      * @return {BaseTag}
      */
 
-    public function addAttr($attr, $value) {
+    public function attr($attr, $value) {
         $this->attributeList[$attr]=$value;
         return $this;
     }
@@ -86,7 +95,9 @@ class VCoreTag {
     public function getHTML() {
         return "<{$this->tag} {$this->getId()} {$this->getClasses()} {$this->getAttributes()} >";
     }
-
+    protected function getEndTagHTML() {
+        return "</{$this->tag}>";
+    }
     /**
      * render - renderiza o html gerado por essa classe na tela
      *

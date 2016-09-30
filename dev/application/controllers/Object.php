@@ -21,7 +21,12 @@ class Object extends LFController {
     public function listobjects() {
         $this->load->library('datamodel/ObjectDataModel');
         $this->load->library('maker/VObjectPanel');
-        $this->dataAdd('lista', $this->model->listObjects());
+        $query="";
+        if(!empty($this->input->post())){
+            $query = $this->input->post('searchquery');
+            $this->dataAdd('searchquery', $this->input->post('searchquery'));
+        }
+        $this->dataAdd('lista', $this->model->listObjects($query));
         parent::index();
         $this->load->view('list');
         $this->loadFooter();
@@ -33,6 +38,7 @@ class Object extends LFController {
      * @return {type}  description
      */
     public function register() {
+        $this->load->library('maker/VPanel');
         $this->lock();
 
         $this->setValidationRules();
@@ -89,6 +95,7 @@ class Object extends LFController {
 
         return $config;
     }
+
     private function sendEmail($founder, $loster, $objetoNome) {
 
         $this->load->library('email');
@@ -103,7 +110,9 @@ class Object extends LFController {
         $this->email->message($loster.' o "'.$objeto.'" foi encontrado por: '.$founder);
         return $this->email->send();
     }
+
     public function found($code, $statuscode) {
+        $this->lock();
         $session_data = $this->session->userdata('logged_in');
         $objeto = $this->model->findByCode($code);
 
