@@ -14,24 +14,28 @@
             }
 
             $panel->body->appendContent($message);
+            foreach($form_model as $key => $attributes) {
 
-            $divRenderfactory = new VDiv();
-            $divRenderfactory->addClass('form-group');
-            // $labelfactory->addClass('form-group');
-            foreach($form_model as $key => $value) {
-                $divRenderfactory->clearContent();
-                $divRenderfactory->setContent("<label>$key</label>");
-                $value['class']='form-control';
-                if($value['type']!='select'){
-                    $divRenderfactory->appendContent( form_input($value,set_value($value['name'])) );
+                $formGroup = new VBootstrapFormGroup();
+                $formGroup->label->appendContent($key);
+                $attributes['class']='form-control';
+                if($attributes['type']!='select') {
+                    if($attributes['name']=='email'){
+                        $email = $this->session->userdata('logged_in')['email'];
+                        $formGroup->appendContent(form_input($attributes, $email));
+                    }else{
+                        $formGroup->appendContent(form_input($attributes, set_value($attributes['name'])));
+                    }
                 }
                 else{
-                    $divRenderfactory->appendContent(form_dropdown($value['name'],$value['options'], set_value($value['name'])));
+                    $options = $attributes['options'];
+                    $attributes['options']='';
+                    $select = new VFormSelect($options, set_value($attributes['name']));
+                    $select->attrList($attributes);
+                    $formGroup->appendContent($select);
                 }
-                $panel->body->appendContent($divRenderfactory->getHTML());
+                $panel->body->appendContent($formGroup);
             }
-            //limpando a factory
-            $divRenderfactory->setContent("");
 
             $panel->footer->appendContent('<button type="submit" class="btn btn-success pull-right ">Confirmar</button>');
             $panel->footer->appendContent('<div class="clearfix"></div>');

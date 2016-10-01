@@ -21,7 +21,21 @@ class UserModel extends CI_Model{
             return false;
         }
     }
+    public function getUserByEmail($email) {
+        $this -> db -> select('user_cd, user_nm, user_ps, user_perm_cd, user_email');
+        $this -> db -> from('user');
+        $this -> db -> where('user_email', $email);
+        $this -> db -> limit(1);
 
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() == 1) {
+            return $query->result_array()[0];
+        }
+        else {
+            return false;
+        }
+    }
     public function loginFormModel() {
         $login_form_model = array();
         $login_form_model['username'] = array( 'type'  => 'text', 'name'  => 'username', 'placeholder' => 'username' );
@@ -31,10 +45,10 @@ class UserModel extends CI_Model{
 
     public function signinFormModel() {
         $signin_form_model = array();
-        $signin_form_model['username'] = array( 'type'  => 'text', 'name'  => 'username', 'placeholder' => 'username' );
-        $signin_form_model['password'] = array( 'type'  => 'password', 'name'  => 'password' );
-        $signin_form_model['email'] = array( 'type'  => 'email', 'name'  => 'email' );
-        $signin_form_model['firstname'] = array( 'type'  => 'text', 'name'  => 'firstname' );
+        $signin_form_model['username'] = array('required'=>true, 'type'  => 'text', 'name'  => 'username', 'placeholder' => 'username' );
+        $signin_form_model['password'] = array('required'=>true, 'type'  => 'password', 'name'  => 'password' );
+        $signin_form_model['email'] = array('required'=>true, 'type'  => 'email', 'name'  => 'email' );
+        $signin_form_model['firstname'] = array('required'=>true, 'type'  => 'text', 'name'  => 'firstname' );
         return $signin_form_model;
     }
 
@@ -59,7 +73,7 @@ class UserModel extends CI_Model{
         $user=array();
         $user['user_nm'] = $username;
         $user['user_ps'] = MD5($password);
-        $user['user_email'] = $password;
+        $user['user_email'] = $email;
         $user['user_fnm'] = $firstname;
         return $this->db->insert('user', $user);
     }

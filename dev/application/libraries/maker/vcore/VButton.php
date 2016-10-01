@@ -9,7 +9,11 @@ require_once 'VCoreTagContainer.php';
  */
 class VButton extends VCoreTagContainer{
 
-    function __construct($content="") {
+    function __construct($content="",$class='',$type='') {
         parent::__construct('button', $content);
+        if(isset($class))
+            $this->addClass($class);
+        if(isset($type))
+            $this->attr("type", $type);
     }
 }

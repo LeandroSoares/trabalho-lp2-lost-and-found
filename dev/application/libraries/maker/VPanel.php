@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'vcore/VDiv.php';
 require_once 'vcore/VHx.php';
 require_once 'vcore/VP.php';
+require_once 'vcore/VA.php';
 require_once 'vcore/VImg.php';
 require_once 'vcore/VButton.php';
 

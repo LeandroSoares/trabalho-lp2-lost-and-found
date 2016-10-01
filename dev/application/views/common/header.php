@@ -26,15 +26,15 @@
         <nav class="navbar navbar-default navbar-fixed-top">
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#"> Lost & Found </a>
+              <a class="navbar-brand" href="<?=base_url()?>"> Lost & Found </a>
             </div>
             <ul class='nav navbar-nav navbar-right'>
-                <li><a href="<?=base_url()?>">Home</a></li>
-                <li><a href="<?=base_url('objectlist')?>">Objetos perdidos</a></li>
-                <li><a href="<?=base_url('objectregister')?>">Registrar objeto</a></li>
+                <!-- <li><a href="<?=base_url()?>">Home</a></li> -->
+                <li class="<?php if(uri_string()=='objectlist')echo 'active';?>"><a href="<?=base_url('objectlist')?>">Objetos perdidos</a></li>
+                <li class="<?php if(uri_string()=='objectregister')echo 'active';?>"><a href="<?=base_url('objectregister')?>">Registrar objeto</a></li>
 
                 <?php if(!$login):?>
-                    <li><a href="<?=base_url('login')?>">Login</a></li>
+                    <li class="<?php if(uri_string()=='login')echo 'active';?>"><a href="<?=base_url('login')?>">Login</a></li>
                 <?php else:?>
                     <li class='alert-info'><a href="#"><?php echo $username; ?></a></li>
                     <li><a href="<?=base_url('logout')?>">Logout</a></li>

@@ -7,7 +7,6 @@ class Object extends LFController {
         $this->load->library('form_validation');
     }
     public function object($objectcode) {
-
         parent::index();
         $this->load->view('list');
         $this->loadFooter();
@@ -20,7 +19,7 @@ class Object extends LFController {
      */
     public function listobjects() {
         $this->load->library('datamodel/ObjectDataModel');
-        $this->load->library('maker/VObjectPanel');
+        $this->load->library('maker/VPanel');
         $query="";
         if(!empty($this->input->post())){
             $query = $this->input->post('searchquery');
@@ -39,6 +38,8 @@ class Object extends LFController {
      */
     public function register() {
         $this->load->library('maker/VPanel');
+        $this->load->library('maker/form/VFormSelect');
+        $this->load->library('maker/VBootstrapFormGroup');
         $this->lock();
 
         $this->setValidationRules();
@@ -77,13 +78,14 @@ class Object extends LFController {
         $config['smtp_crypto'] = 'tls';
         $config['smtp_timeout'] = '7';
 
-        // $config['charset'] = 'iso-8859-1';
+
         $config['charset'] = 'utf-8';
         $config['mailtype'] = 'text';
         $config['validation'] = true;
         $config['wordwrap'] = true;
-        $config['wrapchars'] = 76;
         $config['mailtype'] = 'html';
+
+        $config['wrapchars'] = 76;
         $config['validate'] = false;
         $config['priority'] = 3;
 
@@ -96,18 +98,18 @@ class Object extends LFController {
         return $config;
     }
 
-    private function sendEmail($founder, $loster, $objetoNome) {
+    private function sendEmail($founder, $loster,$founderEmail, $losterEmail, $objeto) {
 
         $this->load->library('email');
 
         $this->email->initialize($this->emailConfig());
 
-        $this->email->from('faculdade_ifsp@outlook.com', 'Lost&Found');
-        $this->email->to($loster);
-        $this->email->cc($founder);
+        $this->email->from('E117S3V3N@outlook.com', 'Lost&Found');
+        $this->email->to($losterEmail);
+        $this->email->cc($founderEmail);
 
-        $this->email->subject('Objeto encontrado #');
-        $this->email->message($loster.' o "'.$objeto.'" foi encontrado por: '.$founder);
+        $this->email->subject('Objeto encontrado #'.$objeto->getCode());
+        $this->email->message($loster.' o "'.$objeto->getName().'" foi encontrado por: '.$founder);
         return $this->email->send();
     }
 
@@ -115,14 +117,24 @@ class Object extends LFController {
         $this->lock();
         $session_data = $this->session->userdata('logged_in');
         $objeto = $this->model->findByCode($code);
+        $this->load->model('UserModel', 'usermodel');
+        if($statuscode==1) {
+            $founderEmail=$session_data['email'];
+            $founder=$session_data['username'];
+            $losterEmail = $objeto->getEmail();
+            $user = $this->usermodel->getUserByEmail($losterEmail);
+            $loster=$user['user_nm'];
+        }
+        else if($statuscode==2){
+            $losterEmail = $session_data['email'];
+            $loster=$session_data['username'];
+            $founderEmail = $objeto->getEmail();
+            $user = $this->usermodel->getUserByEmail($losterEmail);
+            $founder=$user['user_nm'];
+        }
 
-        // if($statuscode==1) {
-            $founder=$session_data['email'];
-            $loster = $objeto->getEmail();
-            $objetoNome = $objeto->getName();
-        // }
+        $mailstatus = $this->sendEmail($founder, $loster,$founderEmail, $losterEmail, $objeto);
 
-        $mailstatus = $this->sendEmail($founder, $loster, $objetoNome);
         if ($mailstatus) {
             $this->session->set_flashdata("register_status", 1);
             $this->session->set_flashdata("register_message", "Email enviado para o dono com sucesso!");

@@ -9,8 +9,10 @@ require_once 'VCoreTagContainer.php';
  */
 class VDiv extends VCoreTagContainer{
 
-    function __construct($content="") {
+    function __construct($content="",$class="") {
         parent::__construct('div', $content);
+        if(isset($class))
+            $this->addClass($class);
     }
 
 }

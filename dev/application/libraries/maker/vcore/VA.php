@@ -15,11 +15,12 @@ class VA extends VCoreTagContainer{
      * @param  {string} $href
      * @return {VA}
      */
-    function __construct($content="", $href="") {
+    function __construct($content="", $href="", $class="") {
         parent::__construct('a', $content);
-        if($href!=""){
+        if(isset($href))
             $this->attr('href', $href);
-        }
+        if(isset($class))
+            $this->addClass($class);
         return $this;
     }
 }

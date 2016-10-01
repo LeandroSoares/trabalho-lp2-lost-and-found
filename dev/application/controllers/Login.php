@@ -16,8 +16,13 @@ class Login extends LFController {
                 $this->dataAdd('loginerror', true);
         }
         else if(!empty($this->input->post())){
-            redirect(base_url(), 'refresh');
+            $url = $this->session->flashdata('lock');
+            redirect(base_url($url), 'refresh');
         }
+        //re salvando ultima página travada acessada para voltar a ela
+        $url = $this->session->flashdata('lock');
+        $this->session->set_flashdata('lock', $url);
+
         parent::index();
         $this->load->view('login');
         $this->loadFooter();

@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+function requireLib($value) { require_once APPPATH.'/libraries/'.$value.'.php'; }
+
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER

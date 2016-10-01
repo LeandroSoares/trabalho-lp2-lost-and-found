@@ -43,22 +43,35 @@ class VCoreTag  implements IVCore{
      * addClass - adiciona uma classe ao elemento
      *
      * @param  {string} $class classe de css
-     * @return {BaseTag}
+     * @return {VCoreTag}
      */
     public function addClass($class) {
         $this->classList[]=$class;
         return $this;
     }
     /**
-     * addAttr - adiciona um atributo
+     * attr - adiciona um atributo
      *
      * @param  {string} $attr
      * @param  {string} $value
-     * @return {BaseTag}
+     * @return {VCoreTag}
      */
 
     public function attr($attr, $value) {
         $this->attributeList[$attr]=$value;
+        return $this;
+    }
+
+    /**
+     * attrList - adiciona atributos por array associativo
+     *
+     * @param  {array} $attrList description
+     * @return {VCoreTag}           description
+     */
+    public function attrList($attrList) {
+        foreach ($attrList as $key => $value) {
+            $this->attr($key,$value);
+        }
         return $this;
     }
 

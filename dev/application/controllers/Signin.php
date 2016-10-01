@@ -5,6 +5,7 @@ class Signin extends LFController {
         parent::__construct();
         $this->load->model('UserModel','user');
         $this->load->library('form_validation');
+        $this->load->library(array('maker/vcore/VHx', 'maker/vcore/VDiv', 'maker/VBootstrapFormGroup', 'maker/VPanel'));
     }
 
     function index() {
@@ -28,8 +29,9 @@ class Signin extends LFController {
                 $password= $this->input->post('password');
                 $email= $this->input->post('email');
                 $firstname= $this->input->post('firstname');
-                $success = $this->user->signin($username, $password ,$email ,$firstname);
-                redirect(base_url('login'), 'refresh');
+                $success = $this->user->signin($username, $password , $email ,$firstname);
+                $this->session->set_flashdata('signin', 'Usuário <strong>'.$username.'</strong> cadastrado com sucesso!');
+                redirect(base_url('login'));
             }
         }
         parent::index();

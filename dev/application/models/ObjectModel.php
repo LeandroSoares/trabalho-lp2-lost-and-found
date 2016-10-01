@@ -28,8 +28,7 @@ class ObjectModel extends CI_Model{
         $sql = "select * from object";
 
         if($seachQuery){
-
-            $sql = 'Select * from object where Concat(obje_nm, "", obje_ds) like "%'.$seachQuery.'%"';
+            $sql = 'Select * from (select * from object, object_status where object.obje_obst_cd=object_status.obst_cd) as obj where Concat(obj.obje_nm, "", obj.obje_ds,"",obj.obst_ds) like "%'.$seachQuery.'%"';
             if(intval($seachQuery)>0)
                 $sql = 'Select * from object where obje_cd='.intval($seachQuery);
         }
@@ -72,18 +71,17 @@ class ObjectModel extends CI_Model{
      * @return {type}  retorna a estrutura de dados do formulario de registrar Objeto
      */
     public function registerObjectFormModel() {
-        $formModel = array();
-        $formModel['Nome'] = array('required'=>true, 'type' => 'text', 'name'  => 'name' );
-        $formModel['Descrição'] = array('required'=>true, 'type' => 'text', 'name'  => 'description' );
-        $formModel['Email'] = array('required'=>false, 'type' => 'email', 'name'  => 'email' );
-        $formModel['Imagem'] = array('required'=>false, 'type' => 'file', 'name'  => 'image' );
+                $options[""]='';
+                $options[1] = 'perdido';
+                $options[2] = 'achado';
 
-        $options=array();
-
-        $options[1]='perdido';
-        $options[2]='achado';
-
-        $formModel['Status'] = array( 'required'=>false, 'type'  => 'select', 'name'  => 'statuscode' ,'options'=>$options);
+                 $formModel = array();
+         $formModel['Nome'] = array('required'=>true , 'type' => 'text'  , 'name'  => 'name'        );
+    $formModel['Descrição'] = array('required'=>true , 'type' => 'text'  , 'name'  => 'description' );
+        $formModel['Email'] = array('required'=>true , 'type' => 'email' , 'name'  => 'email'       );
+       $formModel['Imagem'] = array('required'=>false , 'type' => 'file'  , 'name'  => 'image'       );
+       $formModel['Status'] = array('required'=>true , 'type' => 'select', 'name'  => 'statuscode'
+                                    , 'options' =>$options );
         return $formModel;
     }
 

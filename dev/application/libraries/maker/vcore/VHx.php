@@ -9,7 +9,9 @@ require_once 'VCoreTagContainer.php';
  */
 class VHx extends VCoreTagContainer{
 
-    public function __construct($texto, $nivel=1) {
-        parent::__construct('h'.$nivel, $texto);
+    public function __construct($content='', $nivel=1, $class='') {
+        parent::__construct('h'.$nivel, $content);
+        if(isset($class))
+            $this->addClass($class);
     }
 }

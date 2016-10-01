@@ -67,6 +67,7 @@ class LFController extends CI_Controller {
         $this->dataAdd('login', $logged);
         if(isset($this->locked)){
             if($this->locked && $logged==false) {
+                $this->session->set_flashdata('lock', uri_string());
                 redirect(base_url('login'), 'refresh');
             }
         }

@@ -18,6 +18,7 @@ insert into permission
            (10,'comum', 'tem acesso a areas comuns');
 
 select * from permission;
+
 drop table if exists user;
 
 -- user
@@ -54,13 +55,31 @@ create table object(
     ,obje_ds varchar(255)
     ,obje_img longblob
     ,obje_obst_cd int(1)
-    ,obje_email int(4)
+    ,obje_email varchar(255)
     ,constraint pk_obje_cd primary key(obje_cd)
     ,constraint fk_obje_obst_cd foreign key(obje_obst_cd) references object_status(obst_cd)
     
 );
-select * from object;
 
-Select * from object where upper(Concat(obje_cd, "", obje_nm, "", obje_ds)) like upper("%preto%");
-
-Select Concat(obje_nm, "", obje_ds) from object;
+-- select * from object;
+-- 
+-- Select * from object 
+-- 		 where obje_cd 
+--          in(Select object.obje_cd, upper(Concat(object.obje_nm,object.obje_ds, object_status.obst_ds))as concat
+--     from object,object_status 
+--     where object.obje_obst_cd=object_status.obst_cd);
+-- 
+-- Select Concat(obje_nm, "", obje_ds) from object;
+-- 
+-- 
+-- Select *
+--     from (select * 
+-- 			from object,object_status
+-- 			where object.obje_obst_cd=object_status.obst_cd) as obj
+--     where Concat(obj.obje_nm, "", obj.obje_ds,"",obj.obst_ds) like "%perdido%";
+--     
+-- -- Select * from object where Concat(obje_nm, "", obje_ds,"" like "%'.$seachQuery.'%"';
+--     
+-- select * 
+--     from object,object_status
+--     where object.obje_obst_cd=object_status.obst_cd;
