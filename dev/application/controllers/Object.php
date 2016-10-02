@@ -74,7 +74,7 @@ class Object extends LFController {
     }
     private function setValidationRules() {
         foreach ($this->model->registerObjectFormModel() as $key => $value) {
-            if($value['required']==true){
+            if(isset($value['required'])){
                 $this->form_validation->set_rules($value['name'], $key, 'trim|required|xss_clean');
             }
         }

@@ -1,5 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Controller de signin
+ */
 class Signin extends LFController {
     public function __construct() {
         parent::__construct();
@@ -9,12 +12,18 @@ class Signin extends LFController {
     }
 
     function index() {
+
         $this->setValidationRules();
+        //caso não tenha dados de post, é a primeira vez na página
         if(empty($this->input->post())){
+            //passando  estrutura de formulário de signin que está na model
             $this->dataAdd('form_model', $this->user->signinFormModel());
         }
         else {
+            //se tem dados de post valide
+
             $errorCode = $this->validateForm();
+
             if($errorCode>0){
                 $this->dataAdd('signinerror', true);
                 if($errorCode==2){
@@ -29,7 +38,9 @@ class Signin extends LFController {
                 $password= $this->input->post('password');
                 $email= $this->input->post('email');
                 $firstname= $this->input->post('firstname');
+
                 $success = $this->user->signin($username, $password , $email ,$firstname);
+                //caso tudo ok passa mensagem e manda para o login
                 $this->session->set_flashdata('signin', 'Usuário <strong>'.$username.'</strong> cadastrado com sucesso!');
                 redirect(base_url('login'));
             }
@@ -64,6 +75,11 @@ class Signin extends LFController {
         return 0;
     }
 
+    /**
+     * setValidationRules - aplica regras de validacao de formulário
+     *
+     * @return {type}  description
+     */
     public function setValidationRules() {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');

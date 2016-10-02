@@ -45,6 +45,12 @@ class LFController extends CI_Controller {
         $this->data=array();
     }
     private $locked;
+
+    /**
+     * lock - funcao para travar uma pagina caso o usuário não esteja logado
+     *
+     * @return {type}  description
+     */
     protected function lock() {
         $this->locked=true;
     }
@@ -65,6 +71,12 @@ class LFController extends CI_Controller {
         }
 
         $this->dataAdd('login', $logged);
+
+        /**
+         * Caso a pagina esteja trancada e o usuário estiver
+         * deslogado ele é redirecionado para o login, e salvamos
+         * a pagina que ele estava para voltarmo a ela novamente.
+         */
         if(isset($this->locked)){
             if($this->locked && $logged==false) {
                 $this->session->set_flashdata('lock', uri_string());

@@ -9,17 +9,36 @@ class SendMail extends LFController {
         $this->load->library(array('maker/VPanel','maker/vcore/VDiv'));
     }
 
+    /**
+     * object - funcao q recebe os valores pe url de qual objeto esta sendo tratado e qual seu status
+     *
+     * @param  {int} $code=""
+     * @param  {int} $statuscode=""
+     * @return {void}
+     */
     public function object($code="", $statuscode="") {
         $this->lock();
-        $this->getFormData($code,$statuscode);
+        // so tratamos os dados depois que o usuários confirma na tela
+        // e recebemos um post
+        if(!empty($this->input->post())) {
+            $this->getFormData($code,$statuscode);
+        }
         parent::index();
         $this->load->view('sendmail');
         $this->loadFooter();
     }
 
-    public function getFormData($code,$statuscode) {
-        if(!empty($this->input->post())){
-            $message = $this->input->post('message');
+    /**
+     * getFormData - trada os dados recebidos pela url e manda de volta para a lista de objetos
+     *
+     * @param  {int} $code
+     * @param  {int} $statuscode
+     * @return {void}
+     */
+    public function getFormData($code, $statuscode) {
+
+        $message = $this->input->post('message');
+
         $this->load->model('UserModel', 'usermodel');
         $this->load->model('ObjectModel', 'objectmodel');
 
@@ -55,9 +74,9 @@ class SendMail extends LFController {
             $this->session->set_flashdata("register_message","Falha no envio de email de notificação...");
             echo $this->email->print_debugger();
         }
-            redirect(base_url('objectlist'));
-        }
+        redirect(base_url('objectlist'));
     }
+
     /**
      * emailConfig - configurando dados de servidor de email
      *
@@ -73,7 +92,7 @@ class SendMail extends LFController {
         // $config['smtp_port'] = '587';
         // $config['smtp_crypto'] = 'tls';
         // $config['smtp_timeout'] = '7';
-
+        // gmail
         // $config['protocol'] = 'smtp';
         // $config['smtp_host'] = 'smtp-mail.outlook.com';
         // $config['smtp_user'] = 'E117S3V3N@gmail.com';
@@ -91,7 +110,7 @@ class SendMail extends LFController {
         $config['smtp_crypto'] = 'ssl';
         $config['smtp_timeout'] = '7';
 
-
+        //config geral
         $config['charset'] = 'utf-8';
         $config['mailtype'] = 'text';
         $config['validation'] = true;
@@ -111,6 +130,17 @@ class SendMail extends LFController {
         return $config;
     }
 
+    /**
+     * sendEmail - envia o email de aviso para os usuários envolvidos
+     *
+     * @param  {string}          $founder      usuário que achou
+     * @param  {string}          $loster       usuário que perdeu
+     * @param  {string}          $founderEmail email do usuário que achou
+     * @param  {string}          $losterEmail  email do usuário que perdeu
+     * @param  {ObjectDataModel} $objeto       objeto
+     * @param  {string}          $message      mensagem do usuário
+     * @return {boolen}          retorna se mandou omail com sucesso
+     */
     private function sendEmail($founder, $loster,$founderEmail, $losterEmail, $objeto, $message) {
 
         $this->load->library('email');
@@ -121,8 +151,8 @@ class SendMail extends LFController {
         $this->email->to($losterEmail);
         $this->email->cc($founderEmail);
 
-        $this->email->subject('Objeto encontrado #'.$objeto->getCode());
-        $this->email->message($loster.' o "'.$objeto->getName().'" foi encontrado por: '.$founder.'<br><br>'.$message);
+        $this->email->subject('Objeto encontrado #'.$objeto->getCode()."-".$objeto->getName());
+        $this->email->message("Aviso do sistema<br>".$loster.' o "'.$objeto->getName().'" foi encontrado por: '.$founder.'<br><br>'.$message);
         return $this->email->send();
     }
 

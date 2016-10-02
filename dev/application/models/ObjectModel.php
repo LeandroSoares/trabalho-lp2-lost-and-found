@@ -95,7 +95,7 @@ class ObjectModel extends CI_Model{
          $formModel['Nome'] = array('required'=>true , 'type' => 'text'  , 'name'  => 'name'        );
     $formModel['Descrição'] = array('required'=>true , 'type' => 'text'  , 'name'  => 'description' );
         $formModel['Email'] = array('required'=>true , 'type' => 'email' , 'name'  => 'email'       );
-       $formModel['Imagem'] = array('required'=>false , 'type' => 'file'  , 'name'  => 'image'       );
+       $formModel['Imagem'] = array(                 'type' => 'file'  , 'name'  => 'image'       );
        $formModel['Status'] = array('required'=>true , 'type' => 'select', 'name'  => 'statuscode'
                                     , 'options' =>$options );
         return $formModel;
