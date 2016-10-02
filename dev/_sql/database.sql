@@ -83,3 +83,6 @@ create table object(
 -- select * 
 --     from object,object_status
 --     where object.obje_obst_cd=object_status.obst_cd;
+
+select * from object order by obje_obst_cd;
+update object set obje_obst_cd=2 where obje_cd=3;

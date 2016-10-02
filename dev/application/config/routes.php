@@ -58,7 +58,7 @@ $route['objectregister'] = 'object/register';
 $route['objectlist'] = 'object/listobjects';
 $route['objectlist/(:any)'] = 'object/listobjects/$1';
 // $route['object/(:any)'] = 'object/object/$1';
-$route['found/(:num)/(:num)'] = 'object/found/$1/$2';
+$route['sendmail/(:num)/(:num)'] = 'sendmail/object/$1/$2';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

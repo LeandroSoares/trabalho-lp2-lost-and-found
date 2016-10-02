@@ -18,15 +18,18 @@ class ObjectModel extends CI_Model{
         }
         return $result[0];
     }
-
+    public function setStatusFound($code) {
+        $sql="UPDATE object SET obje_obst_cd=3 WHERE obje_cd=$code";
+        $query = $this->db->query($sql);
+        return $query;
+    }
     /**
      * listObjects - retorna um array de objetos tipo ObjectDataModel
      *
      * @return {array} Array<ObjectDataModel>
      */
     public function listObjects($seachQuery="") {
-        $sql = "select * from object";
-
+        $sql = "select * from object order by obje_obst_cd,obje_cd DESC";
         if($seachQuery){
             $sql = 'Select * from (select * from object, object_status where object.obje_obst_cd=object_status.obst_cd) as obj where Concat(obj.obje_nm, "", obj.obje_ds,"",obj.obst_ds) like "%'.$seachQuery.'%"';
             if(intval($seachQuery)>0)
@@ -44,6 +47,12 @@ class ObjectModel extends CI_Model{
 
         return $result;
     }
+
+    /**
+     * getStatusList - retorna lista de status
+     *
+     * @return {type}  description
+     */
     protected function getStatusList() {
         $sql = "select * from object_status";
         $query = $this->db->query($sql);
@@ -53,6 +62,13 @@ class ObjectModel extends CI_Model{
         }
         return $result;
     }
+
+    /**
+     * registerObject - registra objeto na base de dados
+     *
+     * @param  {type} $data description
+     * @return {type}       description
+     */
     public function registerObject($data) {
 
         $objectModel = new ObjectDataModel();

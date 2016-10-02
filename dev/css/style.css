@@ -27,3 +27,14 @@ body { padding-top: 70px; }
 .list.flex-box >*,.panel-body.flex-box>*{
     width: 48%;
 }
+.img-cont{
+    overflow: hidden;
+    border: solid 1px lightgray;
+    border-radius: 4px;
+    max-height: 300px;
+}
+.img-cont img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}

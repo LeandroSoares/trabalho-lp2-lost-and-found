@@ -30,7 +30,7 @@
             </div>
             <ul class='nav navbar-nav navbar-right'>
                 <!-- <li><a href="<?=base_url()?>">Home</a></li> -->
-                <li class="<?php if(uri_string()=='objectlist')echo 'active';?>"><a href="<?=base_url('objectlist')?>">Objetos perdidos</a></li>
+                <li class="<?php if(uri_string()=='objectlist')echo 'active';?>"><a href="<?=base_url('objectlist')?>">Lista de objetos</a></li>
                 <li class="<?php if(uri_string()=='objectregister')echo 'active';?>"><a href="<?=base_url('objectregister')?>">Registrar objeto</a></li>
 
                 <?php if(!$login):?>

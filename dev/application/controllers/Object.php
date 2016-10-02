@@ -13,7 +13,7 @@ class Object extends LFController {
     }
 
     /**
-     * listobjects - carrega viw de lsitagem de objetos
+     * listobjects - carrega view de listagem de objetos
      *
      * @return {type}  description
      */
@@ -67,85 +67,6 @@ class Object extends LFController {
         parent::index();
         $this->load->view('register');
         $this->loadFooter();
-    }
-    private function emailConfig() {
-        $config=array();
-        $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'smtp-mail.outlook.com';
-        $config['smtp_user'] = 'faculdade_ifsp@outlook.com';
-        $config['smtp_pass'] = 'JQX8vU_YHc';
-        $config['smtp_port'] = '587';
-        $config['smtp_crypto'] = 'tls';
-        $config['smtp_timeout'] = '7';
-
-
-        $config['charset'] = 'utf-8';
-        $config['mailtype'] = 'text';
-        $config['validation'] = true;
-        $config['wordwrap'] = true;
-        $config['mailtype'] = 'html';
-
-        $config['wrapchars'] = 76;
-        $config['validate'] = false;
-        $config['priority'] = 3;
-
-        $config['crlf'] = "\r\n";
-        $config['newline'] = "\r\n";
-
-        $config['bcc_batch_mode'] = false;
-        $config['bcc_batch_size'] = 200;
-
-        return $config;
-    }
-
-    private function sendEmail($founder, $loster,$founderEmail, $losterEmail, $objeto) {
-
-        $this->load->library('email');
-
-        $this->email->initialize($this->emailConfig());
-
-        $this->email->from('E117S3V3N@outlook.com', 'Lost&Found');
-        $this->email->to($losterEmail);
-        $this->email->cc($founderEmail);
-
-        $this->email->subject('Objeto encontrado #'.$objeto->getCode());
-        $this->email->message($loster.' o "'.$objeto->getName().'" foi encontrado por: '.$founder);
-        return $this->email->send();
-    }
-
-    public function found($code, $statuscode) {
-        $this->lock();
-        $session_data = $this->session->userdata('logged_in');
-        $objeto = $this->model->findByCode($code);
-        $this->load->model('UserModel', 'usermodel');
-        if($statuscode==1) {
-            $founderEmail=$session_data['email'];
-            $founder=$session_data['username'];
-            $losterEmail = $objeto->getEmail();
-            $user = $this->usermodel->getUserByEmail($losterEmail);
-            $loster=$user['user_nm'];
-        }
-        else if($statuscode==2){
-            $losterEmail = $session_data['email'];
-            $loster=$session_data['username'];
-            $founderEmail = $objeto->getEmail();
-            $user = $this->usermodel->getUserByEmail($losterEmail);
-            $founder=$user['user_nm'];
-        }
-
-        $mailstatus = $this->sendEmail($founder, $loster,$founderEmail, $losterEmail, $objeto);
-
-        if ($mailstatus) {
-            $this->session->set_flashdata("register_status", 1);
-            $this->session->set_flashdata("register_message", "Email enviado para o dono com sucesso!");
-
-        } else {
-            $this->session->set_flashdata("register_status", 2);
-            $this->session->set_flashdata("register_message","Falha no envio de email de notificação...");
-            // echo $this->email->print_debugger();
-        }
-        redirect(base_url('objectlist'));
-
     }
 
     private function validateForm() {

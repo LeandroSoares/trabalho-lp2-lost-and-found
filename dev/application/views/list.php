@@ -49,20 +49,19 @@
         $title->addClass('panel-title');
         //criando conteiners para divisao de conteudo
         $left = new VDiv();
-        $left->addClass('flex-box justify-center');
+        $left->addClass('flex-box justify-center img-cont');
 
         $right = new VDiv();
         $right->addClass('flex-box justify-center align-center');
 
         //criando imagem
         $image = new VImg($data->getImage(), true);
-
         //criando descricao
         $description= new VP($data->getDescription());
 
         //criando botao em relacao ao status
         if($data->getStatuscode()>0){
-            $btnaction = new VA("",base_url('found/'.$data->getCode()."/".$data->getStatuscode()));
+            $btnaction = new VA("",base_url('sendmail/'.$data->getCode()."/".$data->getStatuscode()));
             if($data->getStatuscode()==1){
                 $btnaction->setContent("Achei este item!");
                 $btnaction->addClass('btn btn-success');
@@ -80,7 +79,7 @@
 
         $panel->body->appendContent($left);
         $panel->body->appendContent($right);
-        $row->prependContent($panel);
+        $row->appendContent($panel);
     }
     // adicionando row no container principal
     $container->appendContent($headmessage->getHTML());

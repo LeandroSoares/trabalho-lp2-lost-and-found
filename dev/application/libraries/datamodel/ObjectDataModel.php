@@ -1,6 +1,9 @@
 <?php
+
 /**
+ * ObjectDataModel
  *
+ * Classe para tratar linhas da tabela de objeto
  */
 class ObjectDataModel
 {
