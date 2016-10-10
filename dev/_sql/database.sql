@@ -1,5 +1,3 @@
--- se quiser do zero de novo: drop
--- drop database episodia_lms;
 drop database lost_and_found;
 create database if not exists `lost_and_found`
     CHARACTER SET utf8

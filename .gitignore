@@ -5,4 +5,7 @@
 !*/cache/index.html
 !*/cache/.htaccess
 bower_components
-/dev/nbproject/private/
+/dev/nbproject/private/docs
+docs
+add .
+add .

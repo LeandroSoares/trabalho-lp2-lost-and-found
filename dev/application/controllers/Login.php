@@ -56,7 +56,6 @@ class Login extends LFController {
                $sess_array = array(
                    'id' => $row->user_cd,
                    'username' => $row->user_nm,
-                   'permission' => $row->user_perm_cd,
                    'email' => $row->user_email,
                );
                $this->session->set_userdata('logged_in', $sess_array);
